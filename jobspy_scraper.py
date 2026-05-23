@@ -8,104 +8,140 @@ from google.oauth2.service_account import Credentials
 
 GOOGLE_SHEET_ID = os.environ.get("GOOGLE_SHEET_ID", "")
 GOOGLE_CREDS_FILE = os.environ.get("GOOGLE_CREDS_FILE", "credentials.json")
-
 print("GOOGLE_SHEET_ID = " + GOOGLE_SHEET_ID)
 
 COMPANIES = [
-    {"name": "Mott MacDonald", "category": "Engineering"},
-    {"name": "WSP", "category": "Engineering"},
-    {"name": "Turner Townsend", "category": "Engineering"},
-    {"name": "Amey", "category": "Engineering"},
-    {"name": "Arup", "category": "Engineering"},
-    {"name": "Arcadis", "category": "Engineering"},
-    {"name": "AtkinsRealis", "category": "Engineering"},
-    {"name": "Ramboll", "category": "Engineering"},
-    {"name": "Jacobs", "category": "Engineering"},
-    {"name": "Sweco UK", "category": "Engineering"},
-    {"name": "Cundall", "category": "Engineering"},
-    {"name": "Hoare Lea", "category": "Engineering"},
-    {"name": "Balfour Beatty", "category": "Engineering"},
-    {"name": "Kier", "category": "Engineering"},
-    {"name": "Severn Trent", "category": "Engineering"},
-    {"name": "GE Vernova", "category": "Engineering"},
-    {"name": "GE Aerospace", "category": "Engineering"},
-    {"name": "Airbus", "category": "Engineering"},
-    {"name": "Siemens", "category": "Engineering"},
-    {"name": "VINCI Energies", "category": "Engineering"},
-    {"name": "Dyson", "category": "Engineering"},
-    {"name": "Oxford Instruments", "category": "Engineering"},
-    {"name": "JLR", "category": "Engineering"},
-    {"name": "National Grid", "category": "Energy"},
-    {"name": "EDF Energy", "category": "Energy"},
-    {"name": "SSE", "category": "Energy"},
-    {"name": "Engie", "category": "Energy"},
-    {"name": "Air Products", "category": "Energy"},
-    {"name": "Baker Hughes", "category": "Energy"},
-    {"name": "Cornwall Insight", "category": "Energy"},
-    {"name": "Ofgem", "category": "Energy"},
-    {"name": "Centrica", "category": "Energy"},
-    {"name": "Veolia", "category": "Energy"},
-    {"name": "Environment Agency", "category": "Urban Planning"},
-    {"name": "Transport for London", "category": "Urban Planning"},
-    {"name": "QUOD", "category": "Urban Planning"},
-    {"name": "Ralph Lauren", "category": "Marketing"},
-    {"name": "SuperDry", "category": "Marketing"},
-    {"name": "HelloFresh", "category": "Marketing"},
-    {"name": "OMD", "category": "Marketing"},
-    {"name": "Dentsu", "category": "Marketing"},
-    {"name": "Mediacom", "category": "Marketing"},
-    {"name": "Wavemaker", "category": "Marketing"},
-    {"name": "Mindshare", "category": "Marketing"},
-    {"name": "LexisNexis", "category": "Marketing"},
-    {"name": "Lindt", "category": "Marketing"},
-    {"name": "Omnicom Group", "category": "Marketing"},
-    {"name": "BSI Group", "category": "Marketing"},
-    {"name": "P&G", "category": "Marketing"},
-    {"name": "EY", "category": "Finance"},
-    {"name": "PwC", "category": "Finance"},
-    {"name": "Deloitte", "category": "Finance"},
-    {"name": "KPMG", "category": "Finance"},
-    {"name": "Grant Thornton", "category": "Finance"},
-    {"name": "BDO", "category": "Finance"},
-    {"name": "Aviva", "category": "Finance"},
-    {"name": "Sage Group", "category": "Finance"},
-    {"name": "Moodys Analytics", "category": "Finance"},
-    {"name": "Computershare", "category": "Finance"},
-    {"name": "Kroll", "category": "Finance"},
-    {"name": "Wavestone", "category": "Finance"},
-    {"name": "Barclays Bank", "category": "Banking"},
-    {"name": "HSBC Bank", "category": "Banking"},
-    {"name": "Lloyds Banking Group", "category": "Banking"},
-    {"name": "Santander", "category": "Banking"},
-    {"name": "Morgan Stanley", "category": "Banking"},
-    {"name": "JPMorgan", "category": "Banking"},
-    {"name": "Starling Bank", "category": "Banking"},
-    {"name": "BT Group", "category": "Technology"},
-    {"name": "Bet365", "category": "Technology"},
-    {"name": "Sky", "category": "Technology"},
-    {"name": "Amazon", "category": "Technology"},
-    {"name": "GSK", "category": "Healthcare"},
-    {"name": "AstraZeneca", "category": "Healthcare"},
-    {"name": "NHS", "category": "Healthcare"},
-    {"name": "Compass Group", "category": "Business"},
-    {"name": "Toyota UK", "category": "Business"},
-    {"name": "Just Eat Takeaway", "category": "BD and Sales"},
-    {"name": "Deliveroo", "category": "BD and Sales"},
-    {"name": "Gatwick Airport", "category": "Operations"},
-    {"name": "STFC", "category": "Science"},
-    {"name": "Brambles", "category": "Business"},
-    {"name": "Mandarin Oriental", "category": "Business"},
+    # ENGINEERING
+    {"name": "Mott MacDonald", "match": ["mott macdonald", "mott mac", "mottmac"], "category": "Engineering"},
+    {"name": "WSP", "match": ["wsp"], "category": "Engineering"},
+    {"name": "Turner Townsend", "match": ["turner townsend", "turner & townsend"], "category": "Engineering"},
+    {"name": "Amey", "match": ["amey"], "category": "Engineering"},
+    {"name": "Arup", "match": ["arup"], "category": "Engineering"},
+    {"name": "Arcadis", "match": ["arcadis"], "category": "Engineering"},
+    {"name": "AtkinsRealis", "match": ["atkins"], "category": "Engineering"},
+    {"name": "Ramboll", "match": ["ramboll"], "category": "Engineering"},
+    {"name": "Jacobs", "match": ["jacobs"], "category": "Engineering"},
+    {"name": "Sweco UK", "match": ["sweco"], "category": "Engineering"},
+    {"name": "Cundall", "match": ["cundall"], "category": "Engineering"},
+    {"name": "Hoare Lea", "match": ["hoare lea"], "category": "Engineering"},
+    {"name": "Balfour Beatty", "match": ["balfour beatty"], "category": "Engineering"},
+    {"name": "Kier", "match": ["kier"], "category": "Engineering"},
+    {"name": "Severn Trent", "match": ["severn trent"], "category": "Engineering"},
+    {"name": "GE Vernova", "match": ["ge vernova", "vernova"], "category": "Engineering"},
+    {"name": "GE Aerospace", "match": ["ge aerospace"], "category": "Engineering"},
+    {"name": "Airbus", "match": ["airbus"], "category": "Engineering"},
+    {"name": "Siemens", "match": ["siemens"], "category": "Engineering"},
+    {"name": "VINCI Energies", "match": ["vinci"], "category": "Engineering"},
+    {"name": "Dyson", "match": ["dyson"], "category": "Engineering"},
+    {"name": "Oxford Instruments", "match": ["oxford instruments"], "category": "Engineering"},
+    {"name": "JLR", "match": ["jlr", "jaguar", "land rover"], "category": "Engineering"},
+    # ENERGY
+    {"name": "National Grid", "match": ["national grid"], "category": "Energy"},
+    {"name": "EDF Energy", "match": ["edf"], "category": "Energy"},
+    {"name": "SSE", "match": ["sse"], "category": "Energy"},
+    {"name": "Engie", "match": ["engie"], "category": "Energy"},
+    {"name": "Air Products", "match": ["air products"], "category": "Energy"},
+    {"name": "Baker Hughes", "match": ["baker hughes"], "category": "Energy"},
+    {"name": "Cornwall Insight", "match": ["cornwall insight"], "category": "Energy"},
+    {"name": "Ofgem", "match": ["ofgem"], "category": "Energy"},
+    {"name": "Centrica", "match": ["centrica", "british gas"], "category": "Energy"},
+    {"name": "Veolia", "match": ["veolia"], "category": "Energy"},
+    # URBAN PLANNING
+    {"name": "Environment Agency", "match": ["environment agency"], "category": "Urban Planning"},
+    {"name": "Transport for London", "match": ["transport for london", "tfl"], "category": "Urban Planning"},
+    {"name": "QUOD", "match": ["quod"], "category": "Urban Planning"},
+    # MARKETING
+    {"name": "Ralph Lauren", "match": ["ralph lauren"], "category": "Marketing"},
+    {"name": "SuperDry", "match": ["superdry"], "category": "Marketing"},
+    {"name": "HelloFresh", "match": ["hellofresh"], "category": "Marketing"},
+    {"name": "OMD media group", "match": ["omd"], "category": "Marketing"},
+    {"name": "Dentsu", "match": ["dentsu"], "category": "Marketing"},
+    {"name": "Mediacom", "match": ["mediacom"], "category": "Marketing"},
+    {"name": "Wavemaker UK", "match": ["wavemaker"], "category": "Marketing"},
+    {"name": "Mindshare", "match": ["mindshare"], "category": "Marketing"},
+    {"name": "LexisNexis", "match": ["lexisnexis", "lexis nexis"], "category": "Marketing"},
+    {"name": "Lindt Sprungli", "match": ["lindt"], "category": "Marketing"},
+    {"name": "Omnicom Group", "match": ["omnicom"], "category": "Marketing"},
+    {"name": "BSI Group", "match": ["bsi"], "category": "Marketing"},
+    {"name": "Procter and Gamble", "match": ["procter", "gamble", "p&g"], "category": "Marketing"},
+    # FINANCE
+    {"name": "EY Ernst Young", "match": ["ernst", "young", "ey"], "category": "Finance"},
+    {"name": "PricewaterhouseCoopers", "match": ["pwc", "pricewaterhouse"], "category": "Finance"},
+    {"name": "Deloitte UK", "match": ["deloitte"], "category": "Finance"},
+    {"name": "KPMG UK", "match": ["kpmg"], "category": "Finance"},
+    {"name": "Grant Thornton UK", "match": ["grant thornton"], "category": "Finance"},
+    {"name": "BDO UK", "match": ["bdo"], "category": "Finance"},
+    {"name": "Aviva", "match": ["aviva"], "category": "Finance"},
+    {"name": "Sage Group", "match": ["sage group", "sage plc"], "category": "Finance"},
+    {"name": "Moodys Corporation", "match": ["moody"], "category": "Finance"},
+    {"name": "Computershare", "match": ["computershare"], "category": "Finance"},
+    {"name": "Kroll", "match": ["kroll"], "category": "Finance"},
+    {"name": "Wavestone", "match": ["wavestone"], "category": "Finance"},
+    {"name": "Genpact", "match": ["genpact"], "category": "Finance"},
+    # BANKING
+    {"name": "Barclays", "match": ["barclays"], "category": "Banking"},
+    {"name": "HSBC", "match": ["hsbc"], "category": "Banking"},
+    {"name": "Lloyds Banking Group", "match": ["lloyds"], "category": "Banking"},
+    {"name": "Santander UK", "match": ["santander"], "category": "Banking"},
+    {"name": "Morgan Stanley", "match": ["morgan stanley"], "category": "Banking"},
+    {"name": "JPMorgan Chase", "match": ["jpmorgan", "jp morgan", "chase"], "category": "Banking"},
+    {"name": "Starling Bank", "match": ["starling"], "category": "Banking"},
+    # TECHNOLOGY
+    {"name": "BT Group", "match": ["bt group", "bt plc", " bt "], "category": "Technology"},
+    {"name": "Bet365", "match": ["bet365"], "category": "Technology"},
+    {"name": "Sky UK", "match": ["sky"], "category": "Technology"},
+    {"name": "Amazon UK", "match": ["amazon"], "category": "Technology"},
+    # HEALTHCARE
+    {"name": "GSK GlaxoSmithKline", "match": ["gsk", "glaxo"], "category": "Healthcare"},
+    {"name": "AstraZeneca", "match": ["astrazeneca"], "category": "Healthcare"},
+    {"name": "NHS England", "match": ["nhs"], "category": "Healthcare"},
+    # BUSINESS
+    {"name": "Compass Group UK", "match": ["compass group"], "category": "Business"},
+    {"name": "Toyota UK", "match": ["toyota"], "category": "Business"},
+    {"name": "Brambles", "match": ["brambles"], "category": "Business"},
+    {"name": "Mandarin Oriental", "match": ["mandarin oriental"], "category": "Business"},
+    # BD AND SALES
+    {"name": "Just Eat UK", "match": ["just eat"], "category": "BD and Sales"},
+    {"name": "Deliveroo", "match": ["deliveroo"], "category": "BD and Sales"},
+    # OPERATIONS
+    {"name": "Gatwick Airport", "match": ["gatwick"], "category": "Operations"},
+    # SCIENCE
+    {"name": "STFC UK Research Innovation", "match": ["stfc", "ukri", "science technology"], "category": "Science"},
 ]
 
 
-def scrape_company(company_name, category):
+def is_match(company_col, match_keywords):
+    col = company_col.lower()
+    for kw in match_keywords:
+        if kw.lower() in col:
+            return True
+    return False
+
+
+def make_job(job, company_name, category):
+    return {
+        "job_title": str(job.get("title", "")),
+        "company": str(job.get("company", company_name)),
+        "category": category,
+        "location": str(job.get("location", "UK")),
+        "job_type": str(job.get("job_type", "Experienced")),
+        "apply_link": str(job.get("job_url", "")),
+        "date_added": datetime.now().strftime("%Y-%m-%d"),
+        "status": "Active"
+    }
+
+
+def scrape_company(company):
+    name = company["name"]
+    match = company["match"]
+    cat = company["category"]
     results = []
 
     # Indeed + Glassdoor (25 each)
     try:
         jobs = scrape_jobs(
             site_name=["indeed", "glassdoor"],
-            search_term=company_name,
+            search_term=name,
             location="United Kingdom",
             results_wanted=25,
             country_indeed="UK",
@@ -113,115 +149,66 @@ def scrape_company(company_name, category):
         )
         for idx in range(len(jobs)):
             job = jobs.iloc[idx]
-            results.append({
-                "job_title": str(job.get("title", "")),
-                "company": str(job.get("company", company_name)),
-                "category": category,
-                "location": str(job.get("location", "UK")),
-                "job_type": str(job.get("job_type", "Experienced")),
-                "apply_link": str(job.get("job_url", "")),
-                "date_added": datetime.now().strftime("%Y-%m-%d"),
-                "status": "Active"
-            })
+            if is_match(str(job.get("company", "")), match):
+                results.append(make_job(job, name, cat))
     except Exception as e:
-        print("  Indeed/Glassdoor error: " + str(e))
-
-    # LinkedIn (keep at 10 to avoid rate limiting)
-    try:
-        linkedin_jobs = scrape_jobs(
-            site_name=["linkedin"],
-            search_term=company_name,
-            location="United Kingdom",
-            results_wanted=10,
-            verbose=0
-        )
-        for idx in range(len(linkedin_jobs)):
-            job = linkedin_jobs.iloc[idx]
-            results.append({
-                "job_title": str(job.get("title", "")),
-                "company": str(job.get("company", company_name)),
-                "category": category,
-                "location": str(job.get("location", "UK")),
-                "job_type": str(job.get("job_type", "Experienced")),
-                "apply_link": str(job.get("job_url", "")),
-                "date_added": datetime.now().strftime("%Y-%m-%d"),
-                "status": "Active"
-            })
-    except Exception as e:
-        print("  LinkedIn error: " + str(e))
+        print("  Indeed/Glassdoor: " + str(e))
 
     # Google Jobs (25)
     try:
-        google_jobs = scrape_jobs(
+        gjobs = scrape_jobs(
             site_name=["google"],
-            google_search_term=company_name + " jobs United Kingdom",
+            google_search_term=name + " jobs United Kingdom 2025",
             location="United Kingdom",
             results_wanted=25,
             verbose=0
         )
-        for idx in range(len(google_jobs)):
-            job = google_jobs.iloc[idx]
-            results.append({
-                "job_title": str(job.get("title", "")),
-                "company": str(job.get("company", company_name)),
-                "category": category,
-                "location": str(job.get("location", "UK")),
-                "job_type": str(job.get("job_type", "Experienced")),
-                "apply_link": str(job.get("job_url", "")),
-                "date_added": datetime.now().strftime("%Y-%m-%d"),
-                "status": "Active"
-            })
+        for idx in range(len(gjobs)):
+            job = gjobs.iloc[idx]
+            if is_match(str(job.get("company", "")), match):
+                results.append(make_job(job, name, cat))
     except Exception as e:
-        print("  Google Jobs error: " + str(e))
+        print("  Google: " + str(e))
 
-    print("OK " + company_name + ": " + str(len(results)) + " jobs")
+    print("OK " + name + ": " + str(len(results)) + " jobs")
     return results
 
 
 def save_to_sheets(all_jobs):
     print("Connecting to Google Sheets...")
-    scopes = [
-        "https://spreadsheets.google.com/feeds",
-        "https://www.googleapis.com/auth/drive"
-    ]
+    scopes = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
     creds = Credentials.from_service_account_file(GOOGLE_CREDS_FILE, scopes=scopes)
     client = gspread.authorize(creds)
     sheet = client.open_by_key(GOOGLE_SHEET_ID).worksheet("jobs")
     print("Connected!")
     existing = set()
     try:
-        rows = sheet.get_all_values()
-        for row in rows[1:]:
+        for row in sheet.get_all_values()[1:]:
             if len(row) >= 6:
                 existing.add(row[5])
     except Exception as e:
-        print("Could not read existing: " + str(e))
+        print("Read error: " + str(e))
     added = 0
     for job in all_jobs:
         if job["apply_link"] in existing:
             continue
         sheet.append_row([
-            job["job_title"],
-            job["company"],
-            job["category"],
-            job["location"],
-            job["job_type"],
-            job["apply_link"],
-            job["date_added"],
-            job["status"]
+            job["job_title"], job["company"], job["category"],
+            job["location"], job["job_type"], job["apply_link"],
+            job["date_added"], job["status"]
         ])
         existing.add(job["apply_link"])
         added += 1
     print("Added " + str(added) + " new jobs!")
 
 
+# MAIN
 all_jobs = []
 total = len(COMPANIES)
 for i in range(total):
-    company = COMPANIES[i]
-    print("[" + str(i + 1) + "/" + str(total) + "] " + company["name"])
-    jobs = scrape_company(company["name"], company["category"])
-    all_jobs.extend(jobs)
+    co = COMPANIES[i]
+    print("[" + str(i+1) + "/" + str(total) + "] " + co["name"])
+    all_jobs.extend(scrape_company(co))
     time.sleep(3)
 
 seen = set()
@@ -238,6 +225,6 @@ if GOOGLE_SHEET_ID:
     try:
         save_to_sheets(unique)
     except Exception as e:
-        print("Google Sheets error: " + str(e))
+        print("Sheets error: " + str(e))
 
 print("Done!")
