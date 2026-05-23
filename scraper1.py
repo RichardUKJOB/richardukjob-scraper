@@ -8,46 +8,22 @@ from google.oauth2.service_account import Credentials
 
 GOOGLE_SHEET_ID = os.environ.get("GOOGLE_SHEET_ID", "")
 GOOGLE_CREDS_FILE = os.environ.get("GOOGLE_CREDS_FILE", "credentials.json")
-print("Running: SCRAPER 1 - Engineering/Energy/Planning")
+print("Running: SCRAPER 1 - Engineering Part 1")
 print("GOOGLE_SHEET_ID = " + GOOGLE_SHEET_ID)
 
 COMPANIES = [
-    {"name": "Mott MacDonald", "search": "mott macdonald", "match": ["mott macdonald", "mott mac"], "category": "Engineering"},
-    {"name": "WSP", "search": "wsp engineering", "match": ["wsp"], "category": "Engineering"},
-    {"name": "Turner Townsend", "search": "turner townsend", "match": ["turner townsend", "turner & townsend"], "category": "Engineering"},
-    {"name": "Amey", "search": "amey infrastructure", "match": ["amey"], "category": "Engineering"},
-    {"name": "Arup", "search": "arup engineering", "match": ["arup"], "category": "Engineering"},
-    {"name": "Arcadis", "search": "arcadis", "match": ["arcadis"], "category": "Engineering"},
-    {"name": "AtkinsRealis", "search": "atkinsrealis atkins", "match": ["atkins"], "category": "Engineering"},
-    {"name": "Ramboll", "search": "ramboll engineering", "match": ["ramboll"], "category": "Engineering"},
-    {"name": "Jacobs", "search": "jacobs engineering", "match": ["jacobs"], "category": "Engineering"},
-    {"name": "Sweco UK", "search": "sweco uk", "match": ["sweco"], "category": "Engineering"},
-    {"name": "Cundall", "search": "cundall engineering", "match": ["cundall"], "category": "Engineering"},
-    {"name": "Hoare Lea", "search": "hoare lea", "match": ["hoare lea"], "category": "Engineering"},
-    {"name": "Balfour Beatty", "search": "balfour beatty", "match": ["balfour beatty"], "category": "Engineering"},
-    {"name": "Kier", "search": "kier group", "match": ["kier"], "category": "Engineering"},
-    {"name": "Severn Trent", "search": "severn trent water", "match": ["severn trent"], "category": "Engineering"},
-    {"name": "GE Vernova", "search": "ge vernova", "match": ["ge vernova", "vernova"], "category": "Engineering"},
-    {"name": "GE Aerospace", "search": "ge aerospace", "match": ["ge aerospace"], "category": "Engineering"},
-    {"name": "Airbus", "search": "airbus uk", "match": ["airbus"], "category": "Engineering"},
-    {"name": "Siemens", "search": "siemens uk", "match": ["siemens"], "category": "Engineering"},
-    {"name": "VINCI Energies", "search": "vinci energies uk", "match": ["vinci"], "category": "Engineering"},
-    {"name": "Dyson", "search": "dyson technology", "match": ["dyson"], "category": "Engineering"},
-    {"name": "Oxford Instruments", "search": "oxford instruments", "match": ["oxford instruments"], "category": "Engineering"},
-    {"name": "JLR", "search": "jlr jaguar land rover", "match": ["jlr", "jaguar", "land rover"], "category": "Engineering"},
-    {"name": "National Grid", "search": "national grid", "match": ["national grid"], "category": "Energy"},
-    {"name": "EDF Energy", "search": "edf energy", "match": ["edf"], "category": "Energy"},
-    {"name": "SSE", "search": "sse energy", "match": ["sse"], "category": "Energy"},
-    {"name": "Engie", "search": "engie uk", "match": ["engie"], "category": "Energy"},
-    {"name": "Air Products", "search": "air products uk", "match": ["air products"], "category": "Energy"},
-    {"name": "Baker Hughes", "search": "baker hughes", "match": ["baker hughes"], "category": "Energy"},
-    {"name": "Cornwall Insight", "search": "cornwall insight", "match": ["cornwall insight"], "category": "Energy"},
-    {"name": "Ofgem", "search": "ofgem", "match": ["ofgem"], "category": "Energy"},
-    {"name": "Centrica", "search": "centrica british gas", "match": ["centrica", "british gas"], "category": "Energy"},
-    {"name": "Veolia", "search": "veolia uk", "match": ["veolia"], "category": "Energy"},
-    {"name": "Environment Agency", "search": "environment agency", "match": ["environment agency"], "category": "Urban Planning"},
-    {"name": "Transport for London", "search": "transport for london tfl", "match": ["transport for london", "tfl"], "category": "Urban Planning"},
-    {"name": "QUOD", "search": "quod planning", "match": ["quod"], "category": "Urban Planning"},
+    {"name": "Mott MacDonald", "search": "Mott MacDonald", "match": ["mott macdonald", "mott mac", "mottmac"], "category": "Engineering"},
+    {"name": "WSP", "search": "WSP", "match": ["wsp"], "category": "Engineering"},
+    {"name": "Turner Townsend", "search": "Turner Townsend", "match": ["turner townsend", "turner & townsend"], "category": "Engineering"},
+    {"name": "Amey", "search": "Amey", "match": ["amey"], "category": "Engineering"},
+    {"name": "Arup", "search": "Arup", "match": ["arup"], "category": "Engineering"},
+    {"name": "Arcadis", "search": "Arcadis", "match": ["arcadis"], "category": "Engineering"},
+    {"name": "AtkinsRealis", "search": "AtkinsRealis", "match": ["atkins"], "category": "Engineering"},
+    {"name": "Ramboll", "search": "Ramboll", "match": ["ramboll"], "category": "Engineering"},
+    {"name": "Jacobs", "search": "Jacobs Engineering", "match": ["jacobs"], "category": "Engineering"},
+    {"name": "Sweco UK", "search": "Sweco UK", "match": ["sweco"], "category": "Engineering"},
+    {"name": "Cundall", "search": "Cundall", "match": ["cundall"], "category": "Engineering"},
+    {"name": "Hoare Lea", "search": "Hoare Lea", "match": ["hoare lea"], "category": "Engineering"},
 ]
 
 def is_match(company_col, match_keywords):
@@ -84,15 +60,6 @@ def scrape_company(company):
                 results.append(make_job(job, name, cat))
     except Exception as e:
         print("  Indeed: " + str(e))
-    try:
-        jobs2 = scrape_jobs(site_name=["glassdoor"], search_term=search,
-            location="United Kingdom", results_wanted=20, verbose=0)
-        for idx in range(len(jobs2)):
-            job = jobs2.iloc[idx]
-            if is_match(str(job.get("company", "")), match):
-                results.append(make_job(job, name, cat))
-    except Exception as e:
-        print("  Glassdoor: " + str(e))
     try:
         gjobs = scrape_jobs(site_name=["google"],
             google_search_term=search + " jobs United Kingdom",
@@ -148,11 +115,9 @@ for job in all_jobs:
         unique.append(job)
 
 print("Total unique jobs: " + str(len(unique)))
-
 if GOOGLE_SHEET_ID:
     try:
         save_to_sheets(unique)
     except Exception as e:
         print("Sheets error: " + str(e))
-
 print("Done!")
