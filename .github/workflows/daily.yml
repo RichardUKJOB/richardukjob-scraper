@@ -1,0 +1,29 @@
+name: Daily Job Scraper
+
+on:
+  schedule:
+    - cron: '0 8 * * *'
+  workflow_dispatch:
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install python-jobspy gspread google-auth
+
+      - name: Write Google credentials
+        run: echo '${{ secrets.GOOGLE_CREDS_JSON }}' > credentials.json
+
+      - name: Run scraper
+        env:
+          GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
+          GOOGLE_CREDS_FILE: credentials.json
+        run: python3 jobspy_scraper.py
