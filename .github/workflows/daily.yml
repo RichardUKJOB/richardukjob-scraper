@@ -28,8 +28,14 @@ jobs:
           GOOGLE_CREDS_FILE: credentials.json
         run: python3 scraper1.py
 
-      - name: Run scraper 2 (Finance/Banking/Marketing/Tech/Business)
+      - name: Run scraper 2 (Marketing/Finance)
         env:
           GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
           GOOGLE_CREDS_FILE: credentials.json
         run: python3 scraper2.py
+
+      - name: Run scraper 3 (Banking/Tech/Healthcare/Business)
+        env:
+          GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
+          GOOGLE_CREDS_FILE: credentials.json
+        run: python3 scraper3.py
