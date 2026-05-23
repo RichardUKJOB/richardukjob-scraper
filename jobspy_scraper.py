@@ -3,9 +3,14 @@ import time
 import os
 from datetime import datetime
 from jobspy import scrape_jobs
+import gspread
+from google.oauth2.service_account import Credentials
 
-GOOGLE_SHEET_ID = os.getenv("GOOGLE_SHEET_ID", "")
-GOOGLE_CREDS_FILE = os.getenv("GOOGLE_CREDS_FILE", "credentials.json")
+GOOGLE_SHEET_ID = os.environ.get("GOOGLE_SHEET_ID", "")
+GOOGLE_CREDS_FILE = os.environ.get("GOOGLE_CREDS_FILE", "credentials.json")
+
+print("GOOGLE_SHEET_ID = " + GOOGLE_SHEET_ID)
+print("GOOGLE_CREDS_FILE = " + GOOGLE_CREDS_FILE)
 
 COMPANIES = [
     {"name": "Mott MacDonald", "category": "Engineering"},
@@ -78,6 +83,47 @@ def scrape_company(company_name, category):
         return []
 
 
+def save_to_sheets(all_jobs):
+    print("Connecting to Google Sheets...")
+    scopes = [
+        "https://spreadsheets.google.com/feeds",
+        "https://www.googleapis.com/auth/drive"
+    ]
+    creds = Credentials.from_service_account_file(GOOGLE_CREDS_FILE, scopes=scopes)
+    client = gspread.authorize(creds)
+    print("Opening spreadsheet: " + GOOGLE_SHEET_ID)
+    sheet = client.open_by_key(GOOGLE_SHEET_ID).worksheet("jobs")
+    print("Connected to sheet!")
+
+    existing = set()
+    try:
+        rows = sheet.get_all_values()
+        for row in rows[1:]:
+            if len(row) >= 6:
+                existing.add(row[5])
+    except Exception as e:
+        print("Could not read existing rows: " + str(e))
+
+    added = 0
+    for job in all_jobs:
+        if job["apply_link"] in existing:
+            continue
+        sheet.append_row([
+            job["job_title"],
+            job["company"],
+            job["category"],
+            job["location"],
+            job["job_type"],
+            job["apply_link"],
+            job["date_added"],
+            job["status"]
+        ])
+        existing.add(job["apply_link"])
+        added += 1
+
+    print("Added " + str(added) + " new jobs to Google Sheets!")
+
+
 all_jobs = []
 total = len(COMPANIES)
 
@@ -103,5 +149,15 @@ with open("jobs_output.csv", "w", newline="", encoding="utf-8") as f:
     writer = csv.DictWriter(f, fieldnames=fieldnames)
     writer.writeheader()
     writer.writerows(unique)
+
+print("Saved to CSV")
+
+if GOOGLE_SHEET_ID:
+    try:
+        save_to_sheets(unique)
+    except Exception as e:
+        print("Google Sheets error: " + str(e))
+else:
+    print("No Google Sheet ID set!")
 
 print("Done!")
