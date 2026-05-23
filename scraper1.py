@@ -8,34 +8,36 @@ from google.oauth2.service_account import Credentials
 
 GOOGLE_SHEET_ID = os.environ.get("GOOGLE_SHEET_ID", "")
 GOOGLE_CREDS_FILE = os.environ.get("GOOGLE_CREDS_FILE", "credentials.json")
-print("Running: SCRAPER 2 - Engineering Part 2 + Energy")
+print("Running: SCRAPER 3 - Marketing + Finance")
 print("GOOGLE_SHEET_ID = " + GOOGLE_SHEET_ID)
 
 COMPANIES = [
-    {"name": "Balfour Beatty", "search": "Balfour Beatty", "match": ["balfour beatty"], "category": "Engineering"},
-    {"name": "Kier", "search": "Kier Group", "match": ["kier"], "category": "Engineering"},
-    {"name": "Severn Trent", "search": "Severn Trent", "match": ["severn trent"], "category": "Engineering"},
-    {"name": "GE Vernova", "search": "GE Vernova", "match": ["ge vernova", "vernova"], "category": "Engineering"},
-    {"name": "GE Aerospace", "search": "GE Aerospace", "match": ["ge aerospace"], "category": "Engineering"},
-    {"name": "Airbus", "search": "Airbus", "match": ["airbus"], "category": "Engineering"},
-    {"name": "Siemens", "search": "Siemens", "match": ["siemens"], "category": "Engineering"},
-    {"name": "VINCI Energies", "search": "VINCI Energies", "match": ["vinci"], "category": "Engineering"},
-    {"name": "Dyson", "search": "Dyson", "match": ["dyson"], "category": "Engineering"},
-    {"name": "Oxford Instruments", "search": "Oxford Instruments", "match": ["oxford instruments"], "category": "Engineering"},
-    {"name": "JLR", "search": "JLR", "match": ["jlr", "jaguar land rover"], "category": "Engineering"},
-    {"name": "National Grid", "search": "National Grid", "match": ["national grid"], "category": "Energy"},
-    {"name": "EDF Energy", "search": "EDF Energy", "match": ["edf"], "category": "Energy"},
-    {"name": "SSE", "search": "SSE", "match": ["sse"], "category": "Energy"},
-    {"name": "Engie", "search": "Engie", "match": ["engie"], "category": "Energy"},
-    {"name": "Air Products", "search": "Air Products", "match": ["air products"], "category": "Energy"},
-    {"name": "Baker Hughes", "search": "Baker Hughes", "match": ["baker hughes"], "category": "Energy"},
-    {"name": "Cornwall Insight", "search": "Cornwall Insight", "match": ["cornwall insight"], "category": "Energy"},
-    {"name": "Ofgem", "search": "Ofgem", "match": ["ofgem"], "category": "Energy"},
-    {"name": "Centrica", "search": "Centrica", "match": ["centrica", "british gas"], "category": "Energy"},
-    {"name": "Veolia", "search": "Veolia", "match": ["veolia"], "category": "Energy"},
-    {"name": "Environment Agency", "search": "Environment Agency", "match": ["environment agency"], "category": "Urban Planning"},
-    {"name": "Transport for London", "search": "Transport for London", "match": ["transport for london", "tfl"], "category": "Urban Planning"},
-    {"name": "QUOD", "search": "QUOD", "match": ["quod"], "category": "Urban Planning"},
+    {"name": "Ralph Lauren", "search": "Ralph Lauren", "match": ["ralph lauren"], "category": "Marketing"},
+    {"name": "SuperDry", "search": "SuperDry", "match": ["superdry"], "category": "Marketing"},
+    {"name": "HelloFresh", "search": "HelloFresh", "match": ["hellofresh"], "category": "Marketing"},
+    {"name": "OMD", "search": "OMD", "match": ["omd"], "category": "Marketing"},
+    {"name": "Dentsu", "search": "Dentsu", "match": ["dentsu"], "category": "Marketing"},
+    {"name": "Mediacom", "search": "Mediacom", "match": ["mediacom"], "category": "Marketing"},
+    {"name": "Wavemaker", "search": "Wavemaker", "match": ["wavemaker"], "category": "Marketing"},
+    {"name": "Mindshare", "search": "Mindshare", "match": ["mindshare"], "category": "Marketing"},
+    {"name": "LexisNexis", "search": "LexisNexis", "match": ["lexisnexis"], "category": "Marketing"},
+    {"name": "Lindt", "search": "Lindt", "match": ["lindt"], "category": "Marketing"},
+    {"name": "Omnicom Group", "search": "Omnicom", "match": ["omnicom"], "category": "Marketing"},
+    {"name": "BSI Group", "search": "BSI Group", "match": ["bsi"], "category": "Marketing"},
+    {"name": "P&G", "search": "Procter Gamble", "match": ["procter", "gamble", "p&g"], "category": "Marketing"},
+    {"name": "EY", "search": "EY", "match": ["ernst young", " ey ", "ey "], "category": "Finance"},
+    {"name": "PwC", "search": "PwC", "match": ["pwc", "pricewaterhouse"], "category": "Finance"},
+    {"name": "Deloitte", "search": "Deloitte", "match": ["deloitte"], "category": "Finance"},
+    {"name": "KPMG", "search": "KPMG", "match": ["kpmg"], "category": "Finance"},
+    {"name": "Grant Thornton", "search": "Grant Thornton", "match": ["grant thornton"], "category": "Finance"},
+    {"name": "BDO", "search": "BDO", "match": ["bdo"], "category": "Finance"},
+    {"name": "Aviva", "search": "Aviva", "match": ["aviva"], "category": "Finance"},
+    {"name": "Sage", "search": "Sage Group", "match": ["sage group", "sage plc", "sage software"], "category": "Finance"},
+    {"name": "Moodys", "search": "Moodys", "match": ["moody"], "category": "Finance"},
+    {"name": "Computershare", "search": "Computershare", "match": ["computershare"], "category": "Finance"},
+    {"name": "Kroll", "search": "Kroll", "match": ["kroll"], "category": "Finance"},
+    {"name": "Wavestone", "search": "Wavestone", "match": ["wavestone"], "category": "Finance"},
+    {"name": "Genpact", "search": "Genpact", "match": ["genpact"], "category": "Finance"},
 ]
 
 def is_match(company_col, match_keywords):
