@@ -108,6 +108,7 @@ def save_to_sheets(all_jobs):
             job["date_added"], job["status"]])
         existing.add(job["apply_link"])
         added += 1
+        time.sleep(1)
     print("Added " + str(added) + " new jobs!")
 
 all_jobs = []
