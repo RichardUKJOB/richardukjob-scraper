@@ -8,49 +8,46 @@ from google.oauth2.service_account import Credentials
 
 GOOGLE_SHEET_ID = os.environ.get("GOOGLE_SHEET_ID", "")
 GOOGLE_CREDS_FILE = os.environ.get("GOOGLE_CREDS_FILE", "credentials.json")
-print("Running: SCRIPT 1 - Engineering/Energy/Planning")
+print("Running: SCRAPER 1 - Engineering/Energy/Planning")
 print("GOOGLE_SHEET_ID = " + GOOGLE_SHEET_ID)
 
 COMPANIES = [
-    # ENGINEERING
-    {"name": "Mott MacDonald", "match": ["mott macdonald", "mott mac"], "category": "Engineering"},
-    {"name": "WSP", "match": ["wsp"], "category": "Engineering"},
-    {"name": "Turner Townsend", "match": ["turner townsend", "turner & townsend"], "category": "Engineering"},
-    {"name": "Amey", "match": ["amey"], "category": "Engineering"},
-    {"name": "Arup", "match": ["arup"], "category": "Engineering"},
-    {"name": "Arcadis", "match": ["arcadis"], "category": "Engineering"},
-    {"name": "AtkinsRealis", "match": ["atkins"], "category": "Engineering"},
-    {"name": "Ramboll", "match": ["ramboll"], "category": "Engineering"},
-    {"name": "Jacobs", "match": ["jacobs"], "category": "Engineering"},
-    {"name": "Sweco UK", "match": ["sweco"], "category": "Engineering"},
-    {"name": "Cundall", "match": ["cundall"], "category": "Engineering"},
-    {"name": "Hoare Lea", "match": ["hoare lea"], "category": "Engineering"},
-    {"name": "Balfour Beatty", "match": ["balfour beatty"], "category": "Engineering"},
-    {"name": "Kier", "match": ["kier"], "category": "Engineering"},
-    {"name": "Severn Trent", "match": ["severn trent"], "category": "Engineering"},
-    {"name": "GE Vernova", "match": ["ge vernova", "vernova"], "category": "Engineering"},
-    {"name": "GE Aerospace", "match": ["ge aerospace"], "category": "Engineering"},
-    {"name": "Airbus", "match": ["airbus"], "category": "Engineering"},
-    {"name": "Siemens", "match": ["siemens"], "category": "Engineering"},
-    {"name": "VINCI Energies", "match": ["vinci"], "category": "Engineering"},
-    {"name": "Dyson", "match": ["dyson"], "category": "Engineering"},
-    {"name": "Oxford Instruments", "match": ["oxford instruments"], "category": "Engineering"},
-    {"name": "JLR", "match": ["jlr", "jaguar", "land rover"], "category": "Engineering"},
-    # ENERGY
-    {"name": "National Grid", "match": ["national grid"], "category": "Energy"},
-    {"name": "EDF Energy", "match": ["edf"], "category": "Energy"},
-    {"name": "SSE", "match": ["sse"], "category": "Energy"},
-    {"name": "Engie", "match": ["engie"], "category": "Energy"},
-    {"name": "Air Products", "match": ["air products"], "category": "Energy"},
-    {"name": "Baker Hughes", "match": ["baker hughes"], "category": "Energy"},
-    {"name": "Cornwall Insight", "match": ["cornwall insight"], "category": "Energy"},
-    {"name": "Ofgem", "match": ["ofgem"], "category": "Energy"},
-    {"name": "Centrica", "match": ["centrica", "british gas"], "category": "Energy"},
-    {"name": "Veolia", "match": ["veolia"], "category": "Energy"},
-    # URBAN PLANNING
-    {"name": "Environment Agency", "match": ["environment agency"], "category": "Urban Planning"},
-    {"name": "Transport for London", "match": ["transport for london", "tfl"], "category": "Urban Planning"},
-    {"name": "QUOD", "match": ["quod"], "category": "Urban Planning"},
+    {"name": "Mott MacDonald", "search": "mott macdonald", "match": ["mott macdonald", "mott mac"], "category": "Engineering"},
+    {"name": "WSP", "search": "wsp engineering", "match": ["wsp"], "category": "Engineering"},
+    {"name": "Turner Townsend", "search": "turner townsend", "match": ["turner townsend", "turner & townsend"], "category": "Engineering"},
+    {"name": "Amey", "search": "amey infrastructure", "match": ["amey"], "category": "Engineering"},
+    {"name": "Arup", "search": "arup engineering", "match": ["arup"], "category": "Engineering"},
+    {"name": "Arcadis", "search": "arcadis", "match": ["arcadis"], "category": "Engineering"},
+    {"name": "AtkinsRealis", "search": "atkinsrealis atkins", "match": ["atkins"], "category": "Engineering"},
+    {"name": "Ramboll", "search": "ramboll engineering", "match": ["ramboll"], "category": "Engineering"},
+    {"name": "Jacobs", "search": "jacobs engineering", "match": ["jacobs"], "category": "Engineering"},
+    {"name": "Sweco UK", "search": "sweco uk", "match": ["sweco"], "category": "Engineering"},
+    {"name": "Cundall", "search": "cundall engineering", "match": ["cundall"], "category": "Engineering"},
+    {"name": "Hoare Lea", "search": "hoare lea", "match": ["hoare lea"], "category": "Engineering"},
+    {"name": "Balfour Beatty", "search": "balfour beatty", "match": ["balfour beatty"], "category": "Engineering"},
+    {"name": "Kier", "search": "kier group", "match": ["kier"], "category": "Engineering"},
+    {"name": "Severn Trent", "search": "severn trent water", "match": ["severn trent"], "category": "Engineering"},
+    {"name": "GE Vernova", "search": "ge vernova", "match": ["ge vernova", "vernova"], "category": "Engineering"},
+    {"name": "GE Aerospace", "search": "ge aerospace", "match": ["ge aerospace"], "category": "Engineering"},
+    {"name": "Airbus", "search": "airbus uk", "match": ["airbus"], "category": "Engineering"},
+    {"name": "Siemens", "search": "siemens uk", "match": ["siemens"], "category": "Engineering"},
+    {"name": "VINCI Energies", "search": "vinci energies uk", "match": ["vinci"], "category": "Engineering"},
+    {"name": "Dyson", "search": "dyson technology", "match": ["dyson"], "category": "Engineering"},
+    {"name": "Oxford Instruments", "search": "oxford instruments", "match": ["oxford instruments"], "category": "Engineering"},
+    {"name": "JLR", "search": "jlr jaguar land rover", "match": ["jlr", "jaguar", "land rover"], "category": "Engineering"},
+    {"name": "National Grid", "search": "national grid", "match": ["national grid"], "category": "Energy"},
+    {"name": "EDF Energy", "search": "edf energy", "match": ["edf"], "category": "Energy"},
+    {"name": "SSE", "search": "sse energy", "match": ["sse"], "category": "Energy"},
+    {"name": "Engie", "search": "engie uk", "match": ["engie"], "category": "Energy"},
+    {"name": "Air Products", "search": "air products uk", "match": ["air products"], "category": "Energy"},
+    {"name": "Baker Hughes", "search": "baker hughes", "match": ["baker hughes"], "category": "Energy"},
+    {"name": "Cornwall Insight", "search": "cornwall insight", "match": ["cornwall insight"], "category": "Energy"},
+    {"name": "Ofgem", "search": "ofgem", "match": ["ofgem"], "category": "Energy"},
+    {"name": "Centrica", "search": "centrica british gas", "match": ["centrica", "british gas"], "category": "Energy"},
+    {"name": "Veolia", "search": "veolia uk", "match": ["veolia"], "category": "Energy"},
+    {"name": "Environment Agency", "search": "environment agency", "match": ["environment agency"], "category": "Urban Planning"},
+    {"name": "Transport for London", "search": "transport for london tfl", "match": ["transport for london", "tfl"], "category": "Urban Planning"},
+    {"name": "QUOD", "search": "quod planning", "match": ["quod"], "category": "Urban Planning"},
 ]
 
 def is_match(company_col, match_keywords):
@@ -74,32 +71,32 @@ def make_job(job, company_name, category):
 
 def scrape_company(company):
     name = company["name"]
+    search = company["search"]
     match = company["match"]
     cat = company["category"]
     results = []
     try:
-        jobs = scrape_jobs(
-            site_name=["indeed", "glassdoor"],
-            search_term=name,
-            location="United Kingdom",
-            results_wanted=25,
-            country_indeed="UK",
-            verbose=0
-        )
+        jobs = scrape_jobs(site_name=["indeed"], search_term=search,
+            location="United Kingdom", results_wanted=30, country_indeed="UK", verbose=0)
         for idx in range(len(jobs)):
             job = jobs.iloc[idx]
             if is_match(str(job.get("company", "")), match):
                 results.append(make_job(job, name, cat))
     except Exception as e:
-        print("  Indeed/Glassdoor: " + str(e))
+        print("  Indeed: " + str(e))
     try:
-        gjobs = scrape_jobs(
-            site_name=["google"],
-            google_search_term=name + " jobs United Kingdom",
-            location="United Kingdom",
-            results_wanted=25,
-            verbose=0
-        )
+        jobs2 = scrape_jobs(site_name=["glassdoor"], search_term=search,
+            location="United Kingdom", results_wanted=20, verbose=0)
+        for idx in range(len(jobs2)):
+            job = jobs2.iloc[idx]
+            if is_match(str(job.get("company", "")), match):
+                results.append(make_job(job, name, cat))
+    except Exception as e:
+        print("  Glassdoor: " + str(e))
+    try:
+        gjobs = scrape_jobs(site_name=["google"],
+            google_search_term=search + " jobs United Kingdom",
+            location="United Kingdom", results_wanted=20, verbose=0)
         for idx in range(len(gjobs)):
             job = gjobs.iloc[idx]
             if is_match(str(job.get("company", "")), match):
@@ -127,11 +124,9 @@ def save_to_sheets(all_jobs):
     for job in all_jobs:
         if job["apply_link"] in existing:
             continue
-        sheet.append_row([
-            job["job_title"], job["company"], job["category"],
+        sheet.append_row([job["job_title"], job["company"], job["category"],
             job["location"], job["job_type"], job["apply_link"],
-            job["date_added"], job["status"]
-        ])
+            job["date_added"], job["status"]])
         existing.add(job["apply_link"])
         added += 1
     print("Added " + str(added) + " new jobs!")
