@@ -10,7 +10,6 @@ GOOGLE_SHEET_ID = os.environ.get("GOOGLE_SHEET_ID", "")
 GOOGLE_CREDS_FILE = os.environ.get("GOOGLE_CREDS_FILE", "credentials.json")
 
 print("GOOGLE_SHEET_ID = " + GOOGLE_SHEET_ID)
-print("GOOGLE_CREDS_FILE = " + GOOGLE_CREDS_FILE)
 
 COMPANIES = [
     {"name": "Mott MacDonald", "category": "Engineering"},
@@ -22,34 +21,80 @@ COMPANIES = [
     {"name": "Atkins", "category": "Engineering"},
     {"name": "Ramboll", "category": "Engineering"},
     {"name": "Jacobs", "category": "Engineering"},
+    {"name": "Sweco", "category": "Engineering"},
     {"name": "Cundall", "category": "Engineering"},
     {"name": "Hoare Lea", "category": "Engineering"},
     {"name": "Balfour Beatty", "category": "Engineering"},
     {"name": "Kier", "category": "Engineering"},
     {"name": "Severn Trent", "category": "Engineering"},
+    {"name": "General Electric", "category": "Engineering"},
+    {"name": "Airbus", "category": "Engineering"},
+    {"name": "Siemens", "category": "Engineering"},
+    {"name": "Vinci", "category": "Engineering"},
+    {"name": "Dyson", "category": "Engineering"},
+    {"name": "Oxford Instruments", "category": "Engineering"},
+    {"name": "Jaguar Land Rover", "category": "Engineering"},
     {"name": "National Grid", "category": "Energy"},
     {"name": "EDF Energy", "category": "Energy"},
     {"name": "SSE", "category": "Energy"},
     {"name": "Engie", "category": "Energy"},
+    {"name": "Air Products", "category": "Energy"},
     {"name": "Baker Hughes", "category": "Energy"},
+    {"name": "Cornwall Insight", "category": "Energy"},
+    {"name": "Ofgem", "category": "Energy"},
     {"name": "Centrica", "category": "Energy"},
     {"name": "Veolia", "category": "Energy"},
+    {"name": "PetroChina", "category": "Energy"},
     {"name": "Environment Agency", "category": "Urban Planning"},
     {"name": "Transport for London", "category": "Urban Planning"},
+    {"name": "QUOD", "category": "Urban Planning"},
+    {"name": "Ralph Lauren", "category": "Marketing"},
+    {"name": "SuperDry", "category": "Marketing"},
+    {"name": "HelloFresh", "category": "Marketing"},
+    {"name": "OMD", "category": "Marketing"},
+    {"name": "Dentsu", "category": "Marketing"},
+    {"name": "Mediacom", "category": "Marketing"},
+    {"name": "Wavemaker", "category": "Marketing"},
+    {"name": "Mindshare", "category": "Marketing"},
+    {"name": "LexisNexis", "category": "Marketing"},
+    {"name": "Lindt", "category": "Marketing"},
     {"name": "EY", "category": "Finance"},
     {"name": "PwC", "category": "Finance"},
     {"name": "Deloitte", "category": "Finance"},
     {"name": "KPMG", "category": "Finance"},
+    {"name": "Grant Thornton", "category": "Finance"},
+    {"name": "BDO", "category": "Finance"},
+    {"name": "Aviva", "category": "Finance"},
+    {"name": "Sage", "category": "Finance"},
+    {"name": "Moody's", "category": "Finance"},
+    {"name": "Computershare", "category": "Finance"},
+    {"name": "Kroll", "category": "Finance"},
+    {"name": "Wavestone", "category": "Finance"},
     {"name": "Barclays", "category": "Banking"},
     {"name": "HSBC", "category": "Banking"},
     {"name": "Lloyds", "category": "Banking"},
-    {"name": "Amazon", "category": "Technology"},
+    {"name": "Santander", "category": "Banking"},
+    {"name": "Morgan Stanley", "category": "Banking"},
+    {"name": "JPMorgan", "category": "Banking"},
+    {"name": "Starling Bank", "category": "Banking"},
+    {"name": "British Telecom", "category": "Technology"},
+    {"name": "Bet365", "category": "Technology"},
     {"name": "Sky", "category": "Technology"},
+    {"name": "Amazon", "category": "Technology"},
+    {"name": "Huawei", "category": "Technology"},
+    {"name": "GetGround", "category": "Technology"},
     {"name": "GSK", "category": "Healthcare"},
     {"name": "AstraZeneca", "category": "Healthcare"},
     {"name": "NHS", "category": "Healthcare"},
+    {"name": "Compass Group", "category": "Business"},
+    {"name": "Brambles", "category": "Business"},
+    {"name": "Toyota", "category": "Business"},
+    {"name": "Mandarin Oriental", "category": "Business"},
     {"name": "Just Eat", "category": "BD and Sales"},
     {"name": "Deliveroo", "category": "BD and Sales"},
+    {"name": "Clarivate", "category": "BD and Sales"},
+    {"name": "Gatwick Airport", "category": "Operations"},
+    {"name": "STFC", "category": "Science"},
 ]
 
 
@@ -91,9 +136,8 @@ def save_to_sheets(all_jobs):
     ]
     creds = Credentials.from_service_account_file(GOOGLE_CREDS_FILE, scopes=scopes)
     client = gspread.authorize(creds)
-    print("Opening spreadsheet: " + GOOGLE_SHEET_ID)
     sheet = client.open_by_key(GOOGLE_SHEET_ID).worksheet("jobs")
-    print("Connected to sheet!")
+    print("Connected!")
 
     existing = set()
     try:
@@ -102,7 +146,7 @@ def save_to_sheets(all_jobs):
             if len(row) >= 6:
                 existing.add(row[5])
     except Exception as e:
-        print("Could not read existing rows: " + str(e))
+        print("Could not read existing: " + str(e))
 
     added = 0
     for job in all_jobs:
@@ -121,7 +165,7 @@ def save_to_sheets(all_jobs):
         existing.add(job["apply_link"])
         added += 1
 
-    print("Added " + str(added) + " new jobs to Google Sheets!")
+    print("Added " + str(added) + " new jobs!")
 
 
 all_jobs = []
@@ -144,20 +188,10 @@ for job in all_jobs:
 
 print("Total unique jobs: " + str(len(unique)))
 
-with open("jobs_output.csv", "w", newline="", encoding="utf-8") as f:
-    fieldnames = ["job_title", "company", "category", "location", "job_type", "apply_link", "date_added", "status"]
-    writer = csv.DictWriter(f, fieldnames=fieldnames)
-    writer.writeheader()
-    writer.writerows(unique)
-
-print("Saved to CSV")
-
 if GOOGLE_SHEET_ID:
     try:
         save_to_sheets(unique)
     except Exception as e:
         print("Google Sheets error: " + str(e))
-else:
-    print("No Google Sheet ID set!")
 
 print("Done!")
