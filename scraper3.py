@@ -8,32 +8,36 @@ from google.oauth2.service_account import Credentials
 
 GOOGLE_SHEET_ID = os.environ.get("GOOGLE_SHEET_ID", "")
 GOOGLE_CREDS_FILE = os.environ.get("GOOGLE_CREDS_FILE", "credentials.json")
-print("Running: SCRAPER 3 - Banking/Tech/Healthcare/Business")
+print("Running: SCRAPER 3 - Marketing + Finance")
 print("GOOGLE_SHEET_ID = " + GOOGLE_SHEET_ID)
 
 COMPANIES = [
-    {"name": "Barclays", "search": "barclays bank uk", "match": ["barclays"], "category": "Banking"},
-    {"name": "HSBC", "search": "hsbc bank uk", "match": ["hsbc"], "category": "Banking"},
-    {"name": "Lloyds", "search": "lloyds banking group", "match": ["lloyds"], "category": "Banking"},
-    {"name": "Santander", "search": "santander uk bank", "match": ["santander"], "category": "Banking"},
-    {"name": "Morgan Stanley", "search": "morgan stanley london", "match": ["morgan stanley"], "category": "Banking"},
-    {"name": "JPMorgan", "search": "jpmorgan chase london", "match": ["jpmorgan", "jp morgan"], "category": "Banking"},
-    {"name": "Starling Bank", "search": "starling bank uk", "match": ["starling"], "category": "Banking"},
-    {"name": "BT Group", "search": "bt group telecom uk", "match": ["bt group", "bt plc"], "category": "Technology"},
-    {"name": "Bet365", "search": "bet365 jobs", "match": ["bet365"], "category": "Technology"},
-    {"name": "Sky UK", "search": "sky tv broadband uk", "match": ["sky"], "category": "Technology"},
-    {"name": "Amazon", "search": "amazon uk jobs", "match": ["amazon"], "category": "Technology"},
-    {"name": "GSK", "search": "gsk glaxosmithkline uk", "match": ["gsk", "glaxo"], "category": "Healthcare"},
-    {"name": "AstraZeneca", "search": "astrazeneca pharma uk", "match": ["astrazeneca"], "category": "Healthcare"},
-    {"name": "NHS", "search": "nhs national health service", "match": ["nhs"], "category": "Healthcare"},
-    {"name": "Compass Group", "search": "compass group catering uk", "match": ["compass group"], "category": "Business"},
-    {"name": "Toyota UK", "search": "toyota uk manufacturing", "match": ["toyota"], "category": "Business"},
-    {"name": "Brambles", "search": "brambles chep logistics", "match": ["brambles", "chep"], "category": "Business"},
-    {"name": "Mandarin Oriental", "search": "mandarin oriental hotel london", "match": ["mandarin oriental"], "category": "Business"},
-    {"name": "Just Eat", "search": "just eat takeaway uk", "match": ["just eat"], "category": "BD and Sales"},
-    {"name": "Deliveroo", "search": "deliveroo uk", "match": ["deliveroo"], "category": "BD and Sales"},
-    {"name": "Gatwick Airport", "search": "gatwick airport jobs", "match": ["gatwick"], "category": "Operations"},
-    {"name": "STFC", "search": "stfc science technology facilities council", "match": ["stfc", "ukri"], "category": "Science"},
+    {"name": "Ralph Lauren", "search": "Ralph Lauren", "match": ["ralph lauren"], "category": "Marketing"},
+    {"name": "SuperDry", "search": "SuperDry", "match": ["superdry"], "category": "Marketing"},
+    {"name": "HelloFresh", "search": "HelloFresh", "match": ["hellofresh"], "category": "Marketing"},
+    {"name": "OMD", "search": "OMD", "match": ["omd"], "category": "Marketing"},
+    {"name": "Dentsu", "search": "Dentsu", "match": ["dentsu"], "category": "Marketing"},
+    {"name": "Mediacom", "search": "Mediacom", "match": ["mediacom"], "category": "Marketing"},
+    {"name": "Wavemaker", "search": "Wavemaker", "match": ["wavemaker"], "category": "Marketing"},
+    {"name": "Mindshare", "search": "Mindshare", "match": ["mindshare"], "category": "Marketing"},
+    {"name": "LexisNexis", "search": "LexisNexis", "match": ["lexisnexis"], "category": "Marketing"},
+    {"name": "Lindt", "search": "Lindt", "match": ["lindt"], "category": "Marketing"},
+    {"name": "Omnicom Group", "search": "Omnicom", "match": ["omnicom"], "category": "Marketing"},
+    {"name": "BSI Group", "search": "BSI Group", "match": ["bsi"], "category": "Marketing"},
+    {"name": "P&G", "search": "Procter Gamble", "match": ["procter", "gamble", "p&g"], "category": "Marketing"},
+    {"name": "EY", "search": "EY", "match": ["ernst young", " ey ", "ey "], "category": "Finance"},
+    {"name": "PwC", "search": "PwC", "match": ["pwc", "pricewaterhouse"], "category": "Finance"},
+    {"name": "Deloitte", "search": "Deloitte", "match": ["deloitte"], "category": "Finance"},
+    {"name": "KPMG", "search": "KPMG", "match": ["kpmg"], "category": "Finance"},
+    {"name": "Grant Thornton", "search": "Grant Thornton", "match": ["grant thornton"], "category": "Finance"},
+    {"name": "BDO", "search": "BDO", "match": ["bdo"], "category": "Finance"},
+    {"name": "Aviva", "search": "Aviva", "match": ["aviva"], "category": "Finance"},
+    {"name": "Sage", "search": "Sage Group", "match": ["sage group", "sage plc", "sage software"], "category": "Finance"},
+    {"name": "Moodys", "search": "Moodys", "match": ["moody"], "category": "Finance"},
+    {"name": "Computershare", "search": "Computershare", "match": ["computershare"], "category": "Finance"},
+    {"name": "Kroll", "search": "Kroll", "match": ["kroll"], "category": "Finance"},
+    {"name": "Wavestone", "search": "Wavestone", "match": ["wavestone"], "category": "Finance"},
+    {"name": "Genpact", "search": "Genpact", "match": ["genpact"], "category": "Finance"},
 ]
 
 def is_match(company_col, match_keywords):
@@ -70,15 +74,6 @@ def scrape_company(company):
                 results.append(make_job(job, name, cat))
     except Exception as e:
         print("  Indeed: " + str(e))
-    try:
-        jobs2 = scrape_jobs(site_name=["glassdoor"], search_term=search,
-            location="United Kingdom", results_wanted=20, verbose=0)
-        for idx in range(len(jobs2)):
-            job = jobs2.iloc[idx]
-            if is_match(str(job.get("company", "")), match):
-                results.append(make_job(job, name, cat))
-    except Exception as e:
-        print("  Glassdoor: " + str(e))
     try:
         gjobs = scrape_jobs(site_name=["google"],
             google_search_term=search + " jobs United Kingdom",
@@ -134,11 +129,9 @@ for job in all_jobs:
         unique.append(job)
 
 print("Total unique jobs: " + str(len(unique)))
-
 if GOOGLE_SHEET_ID:
     try:
         save_to_sheets(unique)
     except Exception as e:
         print("Sheets error: " + str(e))
-
 print("Done!")
