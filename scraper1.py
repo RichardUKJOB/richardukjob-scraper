@@ -8,36 +8,22 @@ from google.oauth2.service_account import Credentials
 
 GOOGLE_SHEET_ID = os.environ.get("GOOGLE_SHEET_ID", "")
 GOOGLE_CREDS_FILE = os.environ.get("GOOGLE_CREDS_FILE", "credentials.json")
-print("Running: SCRAPER 3 - Marketing + Finance")
+print("Running: SCRAPER 1 - Engineering Part 1")
 print("GOOGLE_SHEET_ID = " + GOOGLE_SHEET_ID)
 
 COMPANIES = [
-    {"name": "Ralph Lauren", "search": "Ralph Lauren", "match": ["ralph lauren"], "category": "Marketing"},
-    {"name": "SuperDry", "search": "SuperDry", "match": ["superdry"], "category": "Marketing"},
-    {"name": "HelloFresh", "search": "HelloFresh", "match": ["hellofresh"], "category": "Marketing"},
-    {"name": "OMD", "search": "OMD", "match": ["omd"], "category": "Marketing"},
-    {"name": "Dentsu", "search": "Dentsu", "match": ["dentsu"], "category": "Marketing"},
-    {"name": "Mediacom", "search": "Mediacom", "match": ["mediacom"], "category": "Marketing"},
-    {"name": "Wavemaker", "search": "Wavemaker", "match": ["wavemaker"], "category": "Marketing"},
-    {"name": "Mindshare", "search": "Mindshare", "match": ["mindshare"], "category": "Marketing"},
-    {"name": "LexisNexis", "search": "LexisNexis", "match": ["lexisnexis"], "category": "Marketing"},
-    {"name": "Lindt", "search": "Lindt", "match": ["lindt"], "category": "Marketing"},
-    {"name": "Omnicom Group", "search": "Omnicom", "match": ["omnicom"], "category": "Marketing"},
-    {"name": "BSI Group", "search": "BSI Group", "match": ["bsi"], "category": "Marketing"},
-    {"name": "P&G", "search": "Procter Gamble", "match": ["procter", "gamble", "p&g"], "category": "Marketing"},
-    {"name": "EY", "search": "EY", "match": ["ernst young", " ey ", "ey "], "category": "Finance"},
-    {"name": "PwC", "search": "PwC", "match": ["pwc", "pricewaterhouse"], "category": "Finance"},
-    {"name": "Deloitte", "search": "Deloitte", "match": ["deloitte"], "category": "Finance"},
-    {"name": "KPMG", "search": "KPMG", "match": ["kpmg"], "category": "Finance"},
-    {"name": "Grant Thornton", "search": "Grant Thornton", "match": ["grant thornton"], "category": "Finance"},
-    {"name": "BDO", "search": "BDO", "match": ["bdo"], "category": "Finance"},
-    {"name": "Aviva", "search": "Aviva", "match": ["aviva"], "category": "Finance"},
-    {"name": "Sage", "search": "Sage Group", "match": ["sage group", "sage plc", "sage software"], "category": "Finance"},
-    {"name": "Moodys", "search": "Moodys", "match": ["moody"], "category": "Finance"},
-    {"name": "Computershare", "search": "Computershare", "match": ["computershare"], "category": "Finance"},
-    {"name": "Kroll", "search": "Kroll", "match": ["kroll"], "category": "Finance"},
-    {"name": "Wavestone", "search": "Wavestone", "match": ["wavestone"], "category": "Finance"},
-    {"name": "Genpact", "search": "Genpact", "match": ["genpact"], "category": "Finance"},
+    {"name": "Mott MacDonald", "search": "Mott MacDonald", "match": ["mott macdonald", "mott mac", "mottmac"], "category": "Engineering"},
+    {"name": "WSP", "search": "WSP", "match": ["wsp"], "category": "Engineering"},
+    {"name": "Turner Townsend", "search": "Turner Townsend", "match": ["turner townsend", "turner & townsend"], "category": "Engineering"},
+    {"name": "Amey", "search": "Amey", "match": ["amey"], "category": "Engineering"},
+    {"name": "Arup", "search": "Arup", "match": ["arup"], "category": "Engineering"},
+    {"name": "Arcadis", "search": "Arcadis", "match": ["arcadis"], "category": "Engineering"},
+    {"name": "AtkinsRealis", "search": "AtkinsRealis", "match": ["atkins"], "category": "Engineering"},
+    {"name": "Ramboll", "search": "Ramboll", "match": ["ramboll"], "category": "Engineering"},
+    {"name": "Jacobs", "search": "Jacobs Engineering", "match": ["jacobs"], "category": "Engineering"},
+    {"name": "Sweco UK", "search": "Sweco UK", "match": ["sweco"], "category": "Engineering"},
+    {"name": "Cundall", "search": "Cundall", "match": ["cundall"], "category": "Engineering"},
+    {"name": "Hoare Lea", "search": "Hoare Lea", "match": ["hoare lea"], "category": "Engineering"},
 ]
 
 def is_match(company_col, match_keywords):
