@@ -22,10 +22,14 @@ jobs:
       - name: Write Google credentials
         run: echo '${{ secrets.GOOGLE_CREDS_JSON }}' > credentials.json
 
-      - name: Run scraper
+      - name: Run scraper 1 (Engineering/Energy/Planning)
         env:
           GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
           GOOGLE_CREDS_FILE: credentials.json
-        run: |
-          echo "Sheet ID is set: $GOOGLE_SHEET_ID"
-          python3 jobspy_scraper.py
+        run: python3 scraper1.py
+
+      - name: Run scraper 2 (Finance/Banking/Marketing/Tech/Business)
+        env:
+          GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
+          GOOGLE_CREDS_FILE: credentials.json
+        run: python3 scraper2.py
