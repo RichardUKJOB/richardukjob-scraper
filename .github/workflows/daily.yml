@@ -26,4 +26,6 @@ jobs:
         env:
           GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
           GOOGLE_CREDS_FILE: credentials.json
-        run: python3 jobspy_scraper.py
+        run: |
+          echo "Sheet ID is set: $GOOGLE_SHEET_ID"
+          python3 jobspy_scraper.py
