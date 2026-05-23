@@ -8,22 +8,34 @@ from google.oauth2.service_account import Credentials
 
 GOOGLE_SHEET_ID = os.environ.get("GOOGLE_SHEET_ID", "")
 GOOGLE_CREDS_FILE = os.environ.get("GOOGLE_CREDS_FILE", "credentials.json")
-print("Running: SCRAPER 1 - Engineering Part 1")
+print("Running: SCRAPER 2 - Engineering Part 2 + Energy")
 print("GOOGLE_SHEET_ID = " + GOOGLE_SHEET_ID)
 
 COMPANIES = [
-    {"name": "Mott MacDonald", "search": "Mott MacDonald", "match": ["mott macdonald", "mott mac", "mottmac"], "category": "Engineering"},
-    {"name": "WSP", "search": "WSP", "match": ["wsp"], "category": "Engineering"},
-    {"name": "Turner Townsend", "search": "Turner Townsend", "match": ["turner townsend", "turner & townsend"], "category": "Engineering"},
-    {"name": "Amey", "search": "Amey", "match": ["amey"], "category": "Engineering"},
-    {"name": "Arup", "search": "Arup", "match": ["arup"], "category": "Engineering"},
-    {"name": "Arcadis", "search": "Arcadis", "match": ["arcadis"], "category": "Engineering"},
-    {"name": "AtkinsRealis", "search": "AtkinsRealis", "match": ["atkins"], "category": "Engineering"},
-    {"name": "Ramboll", "search": "Ramboll", "match": ["ramboll"], "category": "Engineering"},
-    {"name": "Jacobs", "search": "Jacobs Engineering", "match": ["jacobs"], "category": "Engineering"},
-    {"name": "Sweco UK", "search": "Sweco UK", "match": ["sweco"], "category": "Engineering"},
-    {"name": "Cundall", "search": "Cundall", "match": ["cundall"], "category": "Engineering"},
-    {"name": "Hoare Lea", "search": "Hoare Lea", "match": ["hoare lea"], "category": "Engineering"},
+    {"name": "Balfour Beatty", "search": "Balfour Beatty", "match": ["balfour beatty"], "category": "Engineering"},
+    {"name": "Kier", "search": "Kier Group", "match": ["kier"], "category": "Engineering"},
+    {"name": "Severn Trent", "search": "Severn Trent", "match": ["severn trent"], "category": "Engineering"},
+    {"name": "GE Vernova", "search": "GE Vernova", "match": ["ge vernova", "vernova"], "category": "Engineering"},
+    {"name": "GE Aerospace", "search": "GE Aerospace", "match": ["ge aerospace"], "category": "Engineering"},
+    {"name": "Airbus", "search": "Airbus", "match": ["airbus"], "category": "Engineering"},
+    {"name": "Siemens", "search": "Siemens", "match": ["siemens"], "category": "Engineering"},
+    {"name": "VINCI Energies", "search": "VINCI Energies", "match": ["vinci"], "category": "Engineering"},
+    {"name": "Dyson", "search": "Dyson", "match": ["dyson"], "category": "Engineering"},
+    {"name": "Oxford Instruments", "search": "Oxford Instruments", "match": ["oxford instruments"], "category": "Engineering"},
+    {"name": "JLR", "search": "JLR", "match": ["jlr", "jaguar land rover"], "category": "Engineering"},
+    {"name": "National Grid", "search": "National Grid", "match": ["national grid"], "category": "Energy"},
+    {"name": "EDF Energy", "search": "EDF Energy", "match": ["edf"], "category": "Energy"},
+    {"name": "SSE", "search": "SSE", "match": ["sse"], "category": "Energy"},
+    {"name": "Engie", "search": "Engie", "match": ["engie"], "category": "Energy"},
+    {"name": "Air Products", "search": "Air Products", "match": ["air products"], "category": "Energy"},
+    {"name": "Baker Hughes", "search": "Baker Hughes", "match": ["baker hughes"], "category": "Energy"},
+    {"name": "Cornwall Insight", "search": "Cornwall Insight", "match": ["cornwall insight"], "category": "Energy"},
+    {"name": "Ofgem", "search": "Ofgem", "match": ["ofgem"], "category": "Energy"},
+    {"name": "Centrica", "search": "Centrica", "match": ["centrica", "british gas"], "category": "Energy"},
+    {"name": "Veolia", "search": "Veolia", "match": ["veolia"], "category": "Energy"},
+    {"name": "Environment Agency", "search": "Environment Agency", "match": ["environment agency"], "category": "Urban Planning"},
+    {"name": "Transport for London", "search": "Transport for London", "match": ["transport for london", "tfl"], "category": "Urban Planning"},
+    {"name": "QUOD", "search": "QUOD", "match": ["quod"], "category": "Urban Planning"},
 ]
 
 def is_match(company_col, match_keywords):
