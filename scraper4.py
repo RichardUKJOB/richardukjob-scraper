@@ -23,6 +23,9 @@ COMPANIES = [
     {"name": "Bet365", "search": "Bet365", "match": ["bet365"], "category": "Technology"},
     {"name": "Sky UK", "search": "Sky", "match": ["sky"], "category": "Technology"},
     {"name": "Amazon", "search": "Amazon", "match": ["amazon"], "category": "Technology"},
+    {"name": "Bank of America", "search": "Bank of America", "match": ["bank of america"], "category": "Banking"},
+    {"name": "American Express", "search": "American Express", "match": ["american express", "amex"], "category": "Banking"},
+    {"name": "eBay", "search": "eBay", "match": ["ebay"], "category": "Technology"},
 ]
 
 def is_match(company_col, match_keywords):
