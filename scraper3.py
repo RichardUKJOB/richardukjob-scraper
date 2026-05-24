@@ -38,6 +38,10 @@ COMPANIES = [
     {"name": "Kroll", "search": "Kroll", "match": ["kroll"], "category": "Finance"},
     {"name": "Wavestone", "search": "Wavestone", "match": ["wavestone"], "category": "Finance"},
     {"name": "Genpact", "search": "Genpact", "match": ["genpact"], "category": "Finance"},
+    {"name": "Crowe", "search": "Crowe UK", "match": ["crowe"], "category": "Finance"},
+    {"name": "Efficio", "search": "Efficio", "match": ["efficio"], "category": "Finance"},
+    {"name": "THG", "search": "THG", "match": ["thg"], "category": "Marketing"},
+    {"name": "Britvic", "search": "Britvic", "match": ["britvic"], "category": "Marketing"},
 ]
 
 def is_match(company_col, match_keywords):
