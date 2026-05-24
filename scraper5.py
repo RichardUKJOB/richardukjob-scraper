@@ -23,6 +23,14 @@ COMPANIES = [
     {"name": "Deliveroo", "search": "Deliveroo", "match": ["deliveroo"], "category": "BD and Sales"},
     {"name": "Gatwick Airport", "search": "Gatwick Airport", "match": ["gatwick"], "category": "Operations"},
     {"name": "STFC", "search": "STFC", "match": ["stfc", "ukri"], "category": "Science"},
+    {"name": "GMC", "search": "General Medical Council", "match": ["general medical council", "gmc"], "category": "Healthcare"},
+    {"name": "MND Association", "search": "MND Association", "match": ["mnd association", "mnd"], "category": "Healthcare"},
+    {"name": "Clarivate", "search": "Clarivate", "match": ["clarivate"], "category": "BD and Sales"},
+    {"name": "Uber Eats", "search": "Uber", "match": ["uber"], "category": "BD and Sales"},
+    {"name": "HMRC", "search": "HM Revenue Customs", "match": ["hmrc", "hm revenue", "revenue & customs"], "category": "Business"},
+    {"name": "Bristol City Council", "search": "Bristol City Council", "match": ["bristol city council"], "category": "Urban Planning"},
+    {"name": "Calford Seaden", "search": "Calford Seaden", "match": ["calford seaden", "calford"], "category": "Engineering"},
+    {"name": "Bentley Motors", "search": "Bentley Motors", "match": ["bentley"], "category": "Engineering"},
 ]
 
 def is_match(company_col, match_keywords):
