@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: '0 8 * * *'
   workflow_dispatch:
+    inputs:
+      force_refresh:
+        description: 'Force full refresh (clear sheet)'
+        required: false
+        default: 'false'
 
 jobs:
   scrape:
@@ -21,6 +26,39 @@ jobs:
 
       - name: Write Google credentials
         run: echo '${{ secrets.GOOGLE_CREDS_JSON }}' > credentials.json
+
+      - name: Clear sheet every 3 days (or force refresh)
+        env:
+          GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
+          GOOGLE_CREDS_FILE: credentials.json
+          FORCE_REFRESH: ${{ github.event.inputs.force_refresh }}
+        run: |
+          python3 << 'EOF'
+          import os
+          import gspread
+          from google.oauth2.service_account import Credentials
+          from datetime import datetime
+
+          force = os.environ.get('FORCE_REFRESH', 'false').lower() == 'true'
+          day = datetime.now().day
+          should_clear = force or (day % 3 == 0)
+
+          if should_clear:
+              print(f"Day {day} — clearing sheet for full refresh...")
+              scopes = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+              creds = Credentials.from_service_account_file(os.environ['GOOGLE_CREDS_FILE'], scopes=scopes)
+              client = gspread.authorize(creds)
+              sheet = client.open_by_key(os.environ['GOOGLE_SHEET_ID']).worksheet("jobs")
+              # Keep header row, clear everything else
+              all_values = sheet.get_all_values()
+              if len(all_values) > 1:
+                  sheet.delete_rows(2, len(all_values))
+                  print(f"Cleared {len(all_values) - 1} rows!")
+              else:
+                  print("Sheet already empty.")
+          else:
+              print(f"Day {day} — incremental update (no clear needed)")
+          EOF
 
       - name: Run scraper 1 (Engineering Part 1)
         env:
